@@ -1,17 +1,21 @@
 # testing special comment on first line
 
-print ("testing lua.c options")
+print ("testing lua.c options = = = = = = =")
 
 assert(os.execute() ~= 0)   -- machine has a system command
 
-prog = os.tmpname()
+prog = os.tmpname() 
 otherprog = os.tmpname()
-out = os.tmpname()
+out = os.tmpname()  
+
+prog = string.gsub(prog, "%.", "_", 1 )
+otherprog = string.gsub(otherprog, "%.", "_" , 1)
+out = string.gsub(out, "%.", "_", 1)
 
 do
   local i = 0
   while arg[i] do i=i-1 end
-  progname = '"'..arg[i+1]..'"'
+  progname = arg[i+1]
 end
 print(progname)
 
@@ -28,13 +32,16 @@ function checkout (s)
   io.input():close()
   assert(os.remove(out))
   if s ~= t then print(string.format("'%s' - '%s'\n", s, t)) end
+
   assert(s == t)
   return t
 end
 
 function auxrun (...)
   local s = string.format(...)
+  
   s = string.gsub(s, "lua", progname, 1)
+
   return os.execute(s)
 end
 
@@ -50,20 +57,21 @@ end
 -- test 2 files
 prepfile("print(1); a=2")
 prepfile("print(a)", otherprog)
+
 RUN("lua -l %s -l%s -lstring -l io %s > %s", prog, otherprog, otherprog, out)
 checkout("1\n2\n2\n")
 
 local a = [[
   assert(table.getn(arg) == 3 and arg[1] == 'a' and
          arg[2] == 'b' and arg[3] == 'c')
-  assert(arg[-1] == '--' and arg[-2] == "-e " and arg[-3] == %s)
+  assert(arg[-1] == '--' and arg[-2] == "-e" and arg[-3] == '%s')
   assert(arg[4] == nil and arg[-4] == nil)
   local a, b, c = ...
   assert(... == 'a' and a == 'a' and b == 'b' and c == 'c')
 ]]
 a = string.format(a, progname)
 prepfile(a)
-RUN('lua "-e " -- %s a b c', prog)
+RUN('lua -e -- %s a b c', prog)
 
 prepfile"assert(arg==nil)"
 prepfile("assert(arg)", otherprog)
@@ -78,7 +86,7 @@ prepfile[[print(({...})[30])]]
 RUN("lua %s %s > %s", prog, string.rep(" a", 30), out)
 checkout("a\n")
 
-RUN([[lua "-eprint(1)" -ea=3 -e "print(a)" > %s]], out)
+RUN([[lua -e "print(1)" -e "a=3" -e "print(a)" > %s]], out)
 checkout("1\n3\n")
 
 prepfile[[
@@ -99,7 +107,7 @@ RUN([[lua -e"_PROMPT='' _PROMPT2=''" -i < %s > %s]], prog, out)
 checkout("6\n10\n10\n\n")
 
 prepfile("a = [[b\nc\nd\ne]]\n=a")
-print(prog)
+
 RUN([[lua -e"_PROMPT='' _PROMPT2=''" -i < %s > %s]], prog, out)
 checkout("b\nc\nd\ne\n\n")
 
@@ -132,13 +140,14 @@ checkout("11\n1\t2\n\n")
 prepfile[[#comment in 1st line without \n at the end]]
 RUN("lua %s", prog)
 
-prepfile("#comment with a binary file\n"..string.dump(loadstring("print(1)")))
-RUN("lua %s > %s", prog, out)
-checkout("1\n")
+-- This test dont work with LuaJIT 2.0
+-- prepfile("#comment with a binary file\n"..string.dump(loadstring("print(1)")))
+-- RUN("lua %s > %s", prog, out)
+-- checkout("1\n")
 
-prepfile("#comment with a binary file\r\n"..string.dump(loadstring("print(1)")))
-RUN("lua %s > %s", prog, out)
-checkout("1\n")
+-- prepfile("#comment with a binary file\r\n"..string.dump(loadstring("print(1)")))
+-- RUN("lua %s > %s", prog, out)
+-- checkout("1\n")
 
 -- close Lua with an open file
 prepfile(string.format([[io.output(%q); io.write('alo')]], out))

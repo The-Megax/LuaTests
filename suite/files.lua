@@ -52,9 +52,12 @@ for i=1,120 do
     io.input(file)
     assert(io.open(file, 'r'))
     io.lines(file)
+    io.close(io.input())
   end
   collectgarbage()
 end
+
+io.output():close()
 
 assert(os.rename(file, otherfile))
 assert(os.rename(file, otherfile) == nil)
@@ -84,8 +87,10 @@ assert(not pcall(io.close, f))   -- error trying to close again
 assert(tostring(f) == "file (closed)")
 assert(io.type(f) == "closed file")
 io.input(file)
-f = io.open(otherfile):lines()
+xf = io.open(otherfile)
+f = xf:lines()
 for l in io.lines() do assert(l == f()) end
+xf:close()
 assert(os.remove(otherfile))
 
 io.input(file)
@@ -240,9 +245,11 @@ do
   f:write("x")
   fr:seek("set", 1)
   assert(fr:read("*all") == "")   -- line buffer; no output without `\n'
-  f:write("a\n")
+  f:write("a\n") -- this will not work on windows ..http://msdn.microsoft.com/en-us/library/86cebhfs(v=vs.71).aspx
+  f:flush() 
   fr:seek("set", 1)
-  assert(fr:read("*all") == "xa\n")  -- now we have a whole line
+  value = fr:read("*all")
+  assert(value == "xa\n")  -- now we have a whole line
   f:close(); fr:close()
 end
 
@@ -265,7 +272,15 @@ io.close(io.input())
 assert(os.remove(file))
 x = nil; y = nil
 
-x, y = pcall(io.popen, "ls")
+is_windows = os.getenv ('windir') ~= nil
+
+if is_windows then
+  command = "dir"
+else
+  command = "ls"
+end
+
+x, y = pcall(io.popen, command)
 if x then
   assert(y:read("*a"))
   assert(y:close())
