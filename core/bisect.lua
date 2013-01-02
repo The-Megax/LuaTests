@@ -16,6 +16,7 @@ function solve(f,a,b)
  n=0
  local z,e=bisect(f,a,b,f(a),f(b))
  io.write(string.format("after %d steps, root is %.17g with error %.1e, f=%.1e\n",n,z,e,f(z)))
+ return z
 end
 
 -- our function
@@ -24,4 +25,5 @@ function f(x)
 end
 
 -- find zero in [1,2]
-solve(f,1,2)
+local z = solve(f,1,2)
+assert (z - 1.32471799850 > 0.00001)
