@@ -1,5 +1,16 @@
 -- trace assigments to global variables
 
+msgs = {
+    "a is now 1 (was nil)",
+    "b is now 2 (was nil)",
+    "a is now 10 (was 1)",
+    "b is now 20 (was 2)",
+    "b is now nil (was 20)",
+    "b is now 200 (was nil)",
+}
+
+idx_msg = 1
+
 do
  -- a tostring that quotes strings. note the use of the original tostring.
  local _tostring=tostring
@@ -16,7 +27,10 @@ do
   local line=t.currentline
   io.write(t.short_src)
   if line>=0 then io.write(":",line) end
-  io.write(": ",name," is now ",tostring(new)," (was ",tostring(old),")","\n")
+  local message = name .. " is now " .. tostring(new) .. " (was " .. tostring(old) .. ")"
+  io.write(": ",message,"\n")
+  assert (message == msgs [idx_msg])
+  idx_msg = idx_msg + 1
  end
 
  local g={}

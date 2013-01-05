@@ -1,7 +1,13 @@
 -- an implementation of printf
 
-function printf(...)
- io.write(string.format(...))
+function sprintf(...)
+ return string.format(...)
 end
 
-printf("Hello %s from %s on %s\n",os.getenv"USER" or "there",_VERSION,os.date())
+function printf (...)
+	io.write(sprintf(...))
+end
+
+x = sprintf("Hello %s from %s on %s", "there", "Lua Tests", "XYZ")
+assert (x == "Hello there from Lua Tests on XYZ")
+print(x)

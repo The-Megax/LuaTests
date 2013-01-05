@@ -30,11 +30,16 @@ function test(s,f)
 	local v=f(n)
 	local t=os.clock()-c
 	print(s,n,v,t,N)
+	return v
 end
 
-n=arg[1] or 24		-- for other values, do lua fib.lua XX
+n= 24		-- for other values, do lua fib.lua XX
 n=tonumber(n)
 print("","n","value","time","evals")
-test("plain",fib)
+v = test("plain",fib)
+assert (v == 46368)
+
 fib=cache(fib)
-test("cached",fib)
+v = test("cached",fib)
+
+assert (v == 46368)

@@ -1,6 +1,9 @@
 -- two implementations of a sort function
 -- this is an example only. Lua has now a built-in function "sort"
 
+quicksort_x = {"Apr","Aug","Dec","Feb","Jan","Jul","Jun","Mar","May","Nov","Oct","Sep"}
+reverse_x = {"Sep","Oct","Nov","May","Mar","Jun","Jul","Jan","Feb","Dec","Aug","Apr"}
+
 -- extracted from Programming Pearls, page 110
 function qsort(x,l,u,f)
  if l<u then
@@ -37,10 +40,11 @@ function selectionsort(x,n,f)
  end
 end
 
-function show(m,x)
+function show(m,x, t)
  io.write(m,"\n\t")
  local i=1
  while x[i] do
+  assert (x[i] == t[i])
   io.write(x[i])
   i=i+1
   if x[i] then io.write(",") end
@@ -51,13 +55,13 @@ end
 function testsorts(x)
  local n=1
  while x[n] do n=n+1 end; n=n-1		-- count elements
- show("original",x)
+ show("original",x , x)
  qsort(x,1,n,function (x,y) return x<y end)
- show("after quicksort",x)
+ show("after quicksort",x, quicksort_x)
  selectionsort(x,n,function (x,y) return x>y end)
- show("after reverse selection sort",x)
+ show("after reverse selection sort",x, reverse_x)
  qsort(x,1,n,function (x,y) return x<y end)
- show("after quicksort again",x)
+ show("after quicksort again",x, quicksort_x)
 end
 
 -- array to be sorted

@@ -26,4 +26,4 @@ end
 
 -- find zero in [1,2]
 local z = solve(f,1,2)
-assert (z - 1.32471799850 > 0.00001)
+assert (z - 1.32471799850 < 0.00001)
