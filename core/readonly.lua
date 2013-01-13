@@ -1,5 +1,8 @@
 -- make global variables readonly
 
+function string.ends(String,End)
+   return End=='' or string.sub(String,-string.len(End))==End
+end
 
 local f=function (t,i) error("cannot redefine global variable `"..i.."'",2) end
 local g={}
@@ -18,4 +21,5 @@ end
 local code, msg = pcall (test_y)
 print (code, msg)
 assert (code == false)
-assert (msg == "readonly.lua:15: cannot redefine global variable `y'")
+assert (string.ends(msg, "readonly.lua:18: cannot redefine global variable `y'"))
+return 0
