@@ -3,7 +3,7 @@
 -- modified to use ANSI terminal escape sequences
 -- modified to use for instead of while
 
-local write=io.write
+local write=print
 
 ALIVE="¥"	DEAD="þ"
 ALIVE="O"	DEAD="-"

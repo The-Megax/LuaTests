@@ -41,15 +41,15 @@ function selectionsort(x,n,f)
 end
 
 function show(m,x, t)
- io.write(m,"\n\t")
+ print(m,"\n\t")
  local i=1
  while x[i] do
   assert (x[i] == t[i])
-  io.write(x[i])
+  print(x[i])
   i=i+1
-  if x[i] then io.write(",") end
+  if x[i] then print(",") end
  end
- io.write("\n")
+ print("\n")
 end
 
 function testsorts(x)

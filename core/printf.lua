@@ -5,7 +5,7 @@ function sprintf(...)
 end
 
 function printf (...)
-	io.write(sprintf(...))
+	print(sprintf(...))
 end
 
 x = sprintf("Hello %s from %s on %s", "there", "Lua Tests", "XYZ")

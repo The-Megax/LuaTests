@@ -23,11 +23,11 @@ local fibs = {
 
 function generatefib (n)
   return coroutine.wrap(function ()
-    local a,b = 1, 1
-    while a <= n do
-      coroutine.yield(a)
-      a, b = b, a+b
-    end
+	local a,b = 1, 1
+	while a <= n do
+	  coroutine.yield(a)
+	  a, b = b, a+b
+	end
   end)
 end
 local j = 1
