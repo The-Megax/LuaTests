@@ -19,7 +19,7 @@ local function test_y()
 end
 
 local code, msg = pcall (test_y)
-print (code, msg)
+print (tostring(code).." ".. msg)
 assert (code == false)
 assert (string.ends(msg, "readonly.lua:18: cannot redefine global variable `y'"))
 return 0

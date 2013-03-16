@@ -101,7 +101,7 @@ function LIFE(w,h)
     thisgen,nextgen = nextgen,thisgen
     write("\027[H")	-- ANSI home cursor
     thisgen:draw()
-    write("Life - generation ",gen,"\n")
+    write("Life - generation ".." "..gen.." ".."\n")
     gen=gen+1
     if gen>2000 then break end
     --delay()		-- no delay

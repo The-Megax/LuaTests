@@ -49,4 +49,4 @@ a=10
 b=20
 b=nil
 b=200
-print(a,b,c)
+print(tostring(a).." "..tostring(b).." "..tostring(c))

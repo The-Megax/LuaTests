@@ -41,7 +41,7 @@ function selectionsort(x,n,f)
 end
 
 function show(m,x, t)
- print(m,"\n\t")
+ print(m.." ".."\n\t")
  local i=1
  while x[i] do
   assert (x[i] == t[i])

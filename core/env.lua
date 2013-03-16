@@ -16,7 +16,7 @@ local f=function (t,i) return mock_getenv(i) end
 setmetatable(getfenv(),{__index=f})
 
 -- an example
-print(a,USER,PATH)
+print(tostring(a) .." ".. USER .." ".. PATH)
 
 assert (PATH == "/Fake/Path/Test")
 assert (USER == "fake_user")

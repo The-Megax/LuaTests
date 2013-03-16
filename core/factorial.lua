@@ -43,7 +43,7 @@ factorial = Y(F)   -- factorial is the fixed point of F
 -- now test it
 function test(x)
   local val = factorial(x)
-	print(x,"! = ", val,"\n")
+	print(x.." ".."! = ".." ".. val.." ".."\n")
   return val
 end
 

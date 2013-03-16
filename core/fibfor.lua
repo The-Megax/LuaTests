@@ -32,7 +32,7 @@ function generatefib (n)
 end
 local j = 1
 for i in generatefib(1000) do 
-	print(i, fibs [j])
+	print(i.." ".. fibs [j])
 	assert (i == fibs [j])
 	j = j + 1
 end
